@@ -20,17 +20,28 @@ class TelaJogadores extends StatefulWidget {
   State<TelaJogadores> createState() => _TelaJogadoresState();
 }
 
-class _TelaJogadoresState extends State<TelaJogadores> {
-  final TextEditingController controller = TextEditingController();
+class Jogador {
+  final String nome;
+  final int idade;
 
-  final List<String> jogadores = [];
+  Jogador({required this.nome, required this.idade});
+}
+
+class _TelaJogadoresState extends State<TelaJogadores> {
+  final TextEditingController nomeController = TextEditingController();
+  final TextEditingController idadeController = TextEditingController();
+
+  final List<Jogador> jogadores = [];
 
   void adicionarJogador() {
-    if (controller.text.isEmpty) return;
+    if (nomeController.text.isEmpty || idadeController.text.isEmpty) return;
+
+    final int idade = int.tryParse(idadeController.text) ?? 0;
 
     setState(() {
-      jogadores.add(controller.text);
-      controller.clear();
+      jogadores.add(Jogador(nome: nomeController.text, idade: idade));
+      nomeController.clear();
+      idadeController.clear();
     });
   }
 
@@ -44,13 +55,23 @@ class _TelaJogadoresState extends State<TelaJogadores> {
           children: [
             //CREATE
             TextField(
-              controller: controller,
+              controller: nomeController,
               decoration: const InputDecoration(
                 labelText: 'Nome do Jogador',
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 10),
+
+            SizedBox(height: 13),
+
+            TextField(
+              controller: idadeController,
+              decoration: const InputDecoration(
+                labelText: 'Idade do Jogador',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: adicionarJogador,
               child: const Text('Adicionar'),
@@ -75,7 +96,7 @@ class _TelaJogadoresState extends State<TelaJogadores> {
                   return ListTile(
                     title: Center(
                       child: Text(
-                        'Nome: ${jogadores[index]}',
+                        'Nome: ${jogadores[index].nome} / Idade: ${jogadores[index].idade}',
                         textAlign: TextAlign.center,
                       ),
                     ),
