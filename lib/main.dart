@@ -98,6 +98,39 @@ class _TelaJogadoresState extends State<TelaJogadores> {
     });
   }
 
+  void removerJogador(int index) {
+    setState(() {
+      jogadores.removeAt(index);
+    });
+  }
+
+  void confirmarRemocao(int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Confirmar exclusão'),
+          content: const Text('Deseja realmente remover este jogador?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                removerJogador(index);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Excluir', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,14 +191,21 @@ class _TelaJogadoresState extends State<TelaJogadores> {
                   //return ListTile(title: Text('Nome: ${jogadores[index]}')); //O ListTile, por padrão, alinha o texto sempre para a esquerda.
                   return ListTile(
                     onTap: () => editarJogador(
-                      //A função de editar sendo chamado, com o clique no jogador, ele descobre o index. Muito Massa!!!
+                      //A função de editar sendo chamado. Com o clique no jogador, ele descobre o index. Muito Massa!!!
                       index,
                     ),
+
                     title: Center(
                       child: Text(
                         'Nome: ${jogadores[index].nome} / Idade: ${jogadores[index].idade}',
                         textAlign: TextAlign.center,
                       ),
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        confirmarRemocao(index);
+                      },
                     ),
                   );
                 },
