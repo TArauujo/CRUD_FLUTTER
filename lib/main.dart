@@ -31,6 +31,59 @@ class _TelaJogadoresState extends State<TelaJogadores> {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController idadeController = TextEditingController();
 
+  void editarJogador(int index) {
+    nomeController.text = jogadores[index].nome;
+    idadeController.text = jogadores[index].idade.toString();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Editar Jogador'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nomeController,
+                decoration: const InputDecoration(labelText: 'Nome'),
+              ),
+              TextField(
+                controller: idadeController,
+                decoration: const InputDecoration(labelText: 'Idade'),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final int idade = int.tryParse(idadeController.text) ?? 0;
+
+                setState(() {
+                  jogadores[index] = Jogador(
+                    nome: nomeController.text,
+                    idade: idade,
+                  );
+                });
+
+                nomeController.clear();
+                idadeController.clear();
+                Navigator.pop(context);
+              },
+              child: const Text('Salvar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   final List<Jogador> jogadores = [];
 
   void adicionarJogador() {
@@ -87,13 +140,27 @@ class _TelaJogadoresState extends State<TelaJogadores> {
 
             const SizedBox(height: 10),
 
+            const Text(
+              'Clique em um jogador para editar as informações!!',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: Colors.deepOrange,
+              ),
+            ),
+
             //READ
             Expanded(
               child: ListView.builder(
+                //Aqui que ele cria o index para cada jogador
                 itemCount: jogadores.length,
                 itemBuilder: (context, index) {
                   //return ListTile(title: Text('Nome: ${jogadores[index]}')); //O ListTile, por padrão, alinha o texto sempre para a esquerda.
                   return ListTile(
+                    onTap: () => editarJogador(
+                      //A função de editar sendo chamado, com o clique no jogador, ele descobre o index. Muito Massa!!!
+                      index,
+                    ),
                     title: Center(
                       child: Text(
                         'Nome: ${jogadores[index].nome} / Idade: ${jogadores[index].idade}',
