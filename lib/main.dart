@@ -197,7 +197,7 @@ class _TelaJogadoresState extends State<TelaJogadores> {
 
                     title: Center(
                       child: Text(
-                        'Nome: ${jogadores[index].nome} / Idade: ${jogadores[index].idade}',
+                        'Nomee: ${jogadores[index].nome} / Idade: ${jogadores[index].idade}',
                         textAlign: TextAlign.center,
                       ),
                     ),
