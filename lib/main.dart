@@ -23,17 +23,20 @@ class TelaJogadores extends StatefulWidget {
 class Jogador {
   final String nome;
   final int idade;
+  final String clube;
 
-  Jogador({required this.nome, required this.idade});
+  Jogador({required this.nome, required this.idade, required this.clube});
 }
 
 class _TelaJogadoresState extends State<TelaJogadores> {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController idadeController = TextEditingController();
+  final TextEditingController clubeController = TextEditingController();
 
   void editarJogador(int index) {
     nomeController.text = jogadores[index].nome;
     idadeController.text = jogadores[index].idade.toString();
+    clubeController.text = jogadores[index].clube;
 
     showDialog(
       context: context,
@@ -52,6 +55,10 @@ class _TelaJogadoresState extends State<TelaJogadores> {
                 decoration: const InputDecoration(labelText: 'Idade'),
                 keyboardType: TextInputType.number,
               ),
+              TextField(
+                controller: clubeController,
+                decoration: const InputDecoration(labelText: 'Clube'),
+              ),
             ],
           ),
           actions: [
@@ -69,11 +76,13 @@ class _TelaJogadoresState extends State<TelaJogadores> {
                   jogadores[index] = Jogador(
                     nome: nomeController.text,
                     idade: idade,
+                    clube: clubeController.text,
                   );
                 });
 
                 nomeController.clear();
                 idadeController.clear();
+                clubeController.clear();
                 Navigator.pop(context);
               },
               child: const Text('Salvar'),
@@ -92,9 +101,16 @@ class _TelaJogadoresState extends State<TelaJogadores> {
     final int idade = int.tryParse(idadeController.text) ?? 0;
 
     setState(() {
-      jogadores.add(Jogador(nome: nomeController.text, idade: idade));
+      jogadores.add(
+        Jogador(
+          nome: nomeController.text,
+          idade: idade,
+          clube: clubeController.text,
+        ),
+      );
       nomeController.clear();
       idadeController.clear();
+      clubeController.clear();
     });
   }
 
@@ -109,7 +125,7 @@ class _TelaJogadoresState extends State<TelaJogadores> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Confirmar exclusão'),
+          title: const Text('Confirmar exclusão!'),
           content: const Text('Deseja realmente remover este jogador?'),
           actions: [
             TextButton(
@@ -157,7 +173,19 @@ class _TelaJogadoresState extends State<TelaJogadores> {
                 border: OutlineInputBorder(),
               ),
             ),
+
+            SizedBox(height: 13),
+
+            TextField(
+              controller: clubeController,
+              decoration: const InputDecoration(
+                labelText: 'Clube do Jogador',
+                border: OutlineInputBorder(),
+              ),
+            ),
+
             SizedBox(height: 10),
+
             ElevatedButton(
               onPressed: adicionarJogador,
               child: const Text('Adicionar'),
@@ -197,7 +225,7 @@ class _TelaJogadoresState extends State<TelaJogadores> {
 
                     title: Center(
                       child: Text(
-                        'Nome: ${jogadores[index].nome} / Idade: ${jogadores[index].idade}',
+                        'Nome: ${jogadores[index].nome} / Idade: ${jogadores[index].idade} / Clube: ${jogadores[index].clube}',
                         textAlign: TextAlign.center,
                       ),
                     ),
