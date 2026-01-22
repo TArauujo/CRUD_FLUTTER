@@ -216,24 +216,49 @@ class _TelaJogadoresState extends State<TelaJogadores> {
                 //Aqui que ele cria o index para cada jogador
                 itemCount: jogadores.length,
                 itemBuilder: (context, index) {
+                  final jogador = jogadores[index];
                   //return ListTile(title: Text('Nome: ${jogadores[index]}')); //O ListTile, por padrão, alinha o texto sempre para a esquerda.
-                  return ListTile(
-                    onTap: () => editarJogador(
-                      //A função de editar sendo chamado. Com o clique no jogador, ele descobre o index. Muito Massa!!!
-                      index,
-                    ),
-
-                    title: Center(
-                      child: Text(
-                        'Nome: ${jogadores[index].nome} / Idade: ${jogadores[index].idade} / Clube: ${jogadores[index].clube}',
-                        textAlign: TextAlign.center,
+                  return Card(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    elevation: 3,
+                    child: InkWell(
+                      onTap: () => editarJogador(
+                        //A função de editar sendo chamado. Com o clique no jogador, ele descobre o index. Muito Massa!!!
+                        index,
                       ),
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        confirmarRemocao(index);
-                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Nome: ${jogador.nome}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () => confirmarRemocao(index),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text('Idade: ${jogador.idade}'),
+                            const SizedBox(height: 2),
+                            Text('Clube: ${jogador.clube}'),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 },
