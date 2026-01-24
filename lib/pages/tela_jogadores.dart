@@ -76,9 +76,28 @@ class _TelaJogadoresState extends State<TelaJogadores> {
   final List<Jogador> jogadores = [];
 
   void adicionarJogador() {
-    if (nomeController.text.isEmpty || idadeController.text.isEmpty) return;
+    if (nomeController.text.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Informe Um Nome Válido!!')));
+      return;
+    }
 
     final int idade = int.tryParse(idadeController.text) ?? 0;
+
+    if (idade == null || idade <= 0) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Idade Inválida!!')));
+      return;
+    }
+
+    if (clubeController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Informe Um Clube Válido!!')),
+      );
+      return;
+    }
 
     setState(() {
       jogadores.add(
@@ -135,7 +154,7 @@ class _TelaJogadoresState extends State<TelaJogadores> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            //CREATE
+            //--------CREATE--------
             TextField(
               controller: nomeController,
               decoration: const InputDecoration(
@@ -148,6 +167,7 @@ class _TelaJogadoresState extends State<TelaJogadores> {
 
             TextField(
               controller: idadeController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: 'Idade do Jogador',
                 border: OutlineInputBorder(),
