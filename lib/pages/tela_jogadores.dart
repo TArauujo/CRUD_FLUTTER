@@ -149,7 +149,10 @@ class _TelaJogadoresState extends State<TelaJogadores> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('CREATE simples'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('CADASTRO DE JOGADORES'),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -193,7 +196,7 @@ class _TelaJogadoresState extends State<TelaJogadores> {
 
             const SizedBox(height: 20),
 
-            // CABEÇALHO
+            //--------CABEÇALHO--------
             const Text(
               'Jogadores Cadastrados',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -210,7 +213,7 @@ class _TelaJogadoresState extends State<TelaJogadores> {
               ),
             ),
 
-            //READ
+            //--------READ--------
             Expanded(
               child: ListView.builder(
                 //Aqui que ele cria o index para cada jogador
