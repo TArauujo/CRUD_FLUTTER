@@ -85,7 +85,7 @@ class _TelaJogadoresState extends State<TelaJogadores> {
 
     final int idade = int.tryParse(idadeController.text) ?? 0;
 
-    if (idade == null || idade <= 0) {
+    if (idade <= 0) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Idade Inválida!!')));

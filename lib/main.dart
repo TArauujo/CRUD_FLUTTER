@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/tela_jogadores.dart';
+import 'pages/tela_lista_jogadores.dart';
 
 void main() {
   runApp(const MeuApp());
@@ -10,6 +10,6 @@ class MeuApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: TelaJogadores());
+    return const MaterialApp(home: TelaListaJogadores());
   }
 }
