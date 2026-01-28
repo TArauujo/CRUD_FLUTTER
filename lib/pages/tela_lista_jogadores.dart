@@ -2,18 +2,25 @@ import 'package:flutter/material.dart';
 import '../entities/jogador.dart';
 
 class TelaListaJogadores extends StatefulWidget {
-  const TelaListaJogadores({super.key});
+  final List<Jogador> jogadores;
+  final Function(int) onRemover;
+  final Function(int, Jogador) onEditar;
+
+  const TelaListaJogadores({
+    super.key,
+    required this.jogadores,
+    required this.onRemover,
+    required this.onEditar,
+  });
 
   @override
   State<TelaListaJogadores> createState() => _TelaListaJogadoresState();
 }
 
 class _TelaListaJogadoresState extends State<TelaListaJogadores> {
-  final List<Jogador> jogadores = [];
-
   void removerJogador(int index) {
     setState(() {
-      jogadores.removeAt(index);
+      widget.jogadores.removeAt(index);
     });
   }
 
@@ -59,7 +66,7 @@ class _TelaListaJogadoresState extends State<TelaListaJogadores> {
           ),
         ],
       ),
-      body: jogadores.isEmpty
+      body: widget.jogadores.isEmpty
           ? const Center(
               child: Text(
                 'Nenhum jogador cadastrado',
@@ -68,16 +75,16 @@ class _TelaListaJogadoresState extends State<TelaListaJogadores> {
             )
           : ListView.builder(
               padding: const EdgeInsets.all(12),
-              itemCount: jogadores.length,
+              itemCount: widget.jogadores.length,
               itemBuilder: (context, index) {
-                final jogador = jogadores[index];
+                final jogador = widget.jogadores[index];
 
                 return Card(
                   margin: const EdgeInsets.symmetric(vertical: 6),
                   elevation: 3,
                   child: InkWell(
                     onTap: () {
-                      // Depois vamos editar o jogador
+                      widget.onEditar(index, jogador);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12),
