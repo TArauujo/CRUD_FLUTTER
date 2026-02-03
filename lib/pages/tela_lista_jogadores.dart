@@ -1,3 +1,4 @@
+import 'package:crud_flutter/pages/tela_cadastro_jogador.dart';
 import 'package:flutter/material.dart';
 import '../entities/jogador.dart';
 
@@ -6,11 +7,14 @@ class TelaListaJogadores extends StatefulWidget {
   final Function(int) onRemover;
   final Function(int, Jogador) onEditar;
 
+  final Function(Jogador) onAdicionar;
+
   const TelaListaJogadores({
     super.key,
     required this.jogadores,
     required this.onRemover,
     required this.onEditar,
+    required this.onAdicionar,
   });
 
   @override
@@ -60,7 +64,14 @@ class _TelaListaJogadoresState extends State<TelaListaJogadores> {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {
+            onPressed: () async {
+              final Jogador? novoJogador = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const TelaCadastroJogador()),
+              );
+              if (novoJogador != null) {
+                widget.onAdicionar(novoJogador);
+              }
               // Depois vamos navegar para a tela de CREATE
             },
           ),

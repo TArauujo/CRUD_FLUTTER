@@ -41,6 +41,7 @@ class _MeuAppState extends State<MeuApp> {
         jogadores: jogadores,
         onRemover: removerJogador,
         onEditar: editarJogador,
+        onAdicionar: adicionarJogador,
       ),
     );
   }
