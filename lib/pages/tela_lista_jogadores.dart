@@ -94,8 +94,17 @@ class _TelaListaJogadoresState extends State<TelaListaJogadores> {
                   margin: const EdgeInsets.symmetric(vertical: 6),
                   elevation: 3,
                   child: InkWell(
-                    onTap: () {
-                      widget.onEditar(index, jogador);
+                    onTap: () async {
+                      final Jogador? jogadorEditado = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => TelaCadastroJogador(jogador: jogador),
+                        ),
+                      );
+
+                      if (jogadorEditado != null) {
+                        widget.onEditar(index, jogadorEditado);
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12),
